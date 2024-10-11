@@ -1,0 +1,11 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Balbalm Backend API",
+    "description": "backend for balbalm feed service",
+    "version": "1.0-beta"
+  },
+  "paths": {
+
+  }
+}
