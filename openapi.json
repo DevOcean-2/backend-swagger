@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Balbalm Backend API",
+    "title": "Balbalm Feed Backend",
     "description": "backend for balbalm feed service",
     "version": "1.0-beta"
   },
@@ -207,7 +207,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfile"
+                  "$ref": "#/components/schemas/ProfileResp"
                 }
               }
             }
@@ -253,7 +253,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserProfile"
+                "$ref": "#/components/schemas/ProfileUpdateReq"
               }
             }
           }
@@ -285,15 +285,15 @@
         }
       }
     },
-    "/feed/profiles/visitors": {
-      "get": {
+    "/feed/profiles/tags": {
+      "put": {
         "tags": [
           "Feed",
           "Feed"
         ],
-        "summary": "Get Visitors",
-        "description": "방문자 리스트 API\n:param token:\n:return:",
-        "operationId": "get_visitors_feed_profiles_visitors_get",
+        "summary": "Update Profile Tags",
+        "description": "본인 프로필 태그 수정 API\n:param tags:\n:param token:\n:return:",
+        "operationId": "update_profile_tags_feed_profiles_tags_put",
         "parameters": [
           {
             "name": "token",
@@ -305,6 +305,63 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileTagUpdateReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feed/profiles/{user_id}/visitors": {
+      "get": {
+        "tags": [
+          "Feed",
+          "Feed"
+        ],
+        "summary": "Get Visitors",
+        "description": "방문자 리스트 API\n:param user_id:\n:return:",
+        "operationId": "get_visitors_feed_profiles__user_id__visitors_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -313,9 +370,9 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/VisitorProfile"
+                    "$ref": "#/components/schemas/VisitorProfileResp"
                   },
-                  "title": "Response Get Visitors Feed Profiles Visitors Get"
+                  "title": "Response Get Visitors Feed Profiles  User Id  Visitors Get"
                 }
               }
             }
@@ -709,19 +766,263 @@
         "title": "Post",
         "description": "게시물 모델"
       },
-      "UserProfile": {
+      "ProfileResp": {
         "properties": {
           "user_id": {
             "type": "string",
-            "title": "User Id"
+            "title": "User Id",
+            "example": "changjjjjjjjj"
+          },
+          "home_nickname": {
+            "type": "string",
+            "title": "Home Nickname",
+            "example": "멍멍홈"
+          },
+          "nickname": {
+            "type": "string",
+            "title": "Nickname",
+            "example": "멍멍이"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "example": "이탈리안 하운드"
+          },
+          "total_walked_dist": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Walked Dist",
+            "example": 163.2
+          },
+          "best_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Rank",
+            "example": 1
+          },
+          "visitors": {
+            "type": "integer",
+            "title": "Visitors",
+            "example": 123456
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Tag"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "example": [
+              {
+                "description": "개귀여우면 획득",
+                "name": "개귀여움"
+              },
+              {
+                "description": "개빠르면 획득",
+                "name": "개빠름"
+              },
+              {
+                "description": "개똑똑하면 획득",
+                "name": "개똑똑함"
+              }
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "example": "멍멍이는 멍멍 짖습니다."
+          },
+          "profile_image_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Image Url",
+            "example": "https://test.s3.amazonaws.com/test/test.jpg"
           }
         },
         "type": "object",
         "required": [
-          "user_id"
+          "user_id",
+          "home_nickname",
+          "nickname",
+          "kind",
+          "visitors"
         ],
-        "title": "UserProfile",
-        "description": "User profile 모델"
+        "title": "ProfileResp",
+        "description": "프로필 리스폰스 모델"
+      },
+      "ProfileTagUpdateReq": {
+        "properties": {
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            },
+            "type": "array",
+            "title": "Tags",
+            "example": [
+              {
+                "description": "개귀여우면 획득",
+                "name": "개귀여움"
+              },
+              {
+                "description": "개빠르면 획득",
+                "name": "개빠름"
+              },
+              {
+                "description": "개똑똑하면 획득",
+                "name": "개똑똑함"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "tags"
+        ],
+        "title": "ProfileTagUpdateReq",
+        "description": "프로필 칭호 업데이트 요청 모델"
+      },
+      "ProfileUpdateReq": {
+        "properties": {
+          "home_nickname": {
+            "type": "string",
+            "title": "Home Nickname",
+            "example": "멍멍홈"
+          },
+          "nickname": {
+            "type": "string",
+            "title": "Nickname",
+            "example": "멍멍이"
+          },
+          "hide_walked_dist": {
+            "type": "boolean",
+            "title": "Hide Walked Dist",
+            "example": false
+          },
+          "hide_best_rank": {
+            "type": "boolean",
+            "title": "Hide Best Rank",
+            "example": true
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Tag"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "example": [
+              {
+                "description": "개귀여우면 획득",
+                "name": "개귀여움"
+              },
+              {
+                "description": "개빠르면 획득",
+                "name": "개빠름"
+              },
+              {
+                "description": "개똑똑하면 획득",
+                "name": "개똑똑함"
+              }
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "example": "멍멍이는 멍멍 짖습니다 2."
+          },
+          "profile_image_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Image Url",
+            "example": "https://test.s3.amazonaws.com/test/test2.jpg"
+          }
+        },
+        "type": "object",
+        "required": [
+          "home_nickname",
+          "nickname",
+          "hide_walked_dist",
+          "hide_best_rank"
+        ],
+        "title": "ProfileUpdateReq",
+        "description": "프로필 업데이트 요청 모델"
+      },
+      "Tag": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "example": "개귀여움"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "example": "개귀여우면 획득"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description"
+        ],
+        "title": "Tag",
+        "description": "칭호 모델"
       },
       "ValidationError": {
         "properties": {
@@ -756,19 +1057,39 @@
         ],
         "title": "ValidationError"
       },
-      "VisitorProfile": {
+      "VisitorProfileResp": {
         "properties": {
           "user_id": {
             "type": "string",
             "title": "User Id"
+          },
+          "nickname": {
+            "type": "string",
+            "title": "Nickname"
+          },
+          "profile_image_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Image Url"
           }
         },
         "type": "object",
         "required": [
-          "user_id"
+          "user_id",
+          "nickname",
+          "profile_image_url"
         ],
-        "title": "VisitorProfile",
-        "description": "Visitor profile 모델"
+        "title": "VisitorProfileResp",
+        "description": "방문자 프로필 리스폰스 모델"
       }
     }
   }
