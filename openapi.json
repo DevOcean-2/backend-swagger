@@ -342,23 +342,23 @@
         }
       }
     },
-    "/feed/profiles/{user_id}/visitors": {
+    "/feed/profiles/visitors": {
       "get": {
         "tags": [
           "Feed",
           "Feed"
         ],
         "summary": "Get Visitors",
-        "description": "방문자 리스트 API\n:param user_id:\n:return:",
-        "operationId": "get_visitors_feed_profiles__user_id__visitors_get",
+        "description": "방문자 리스트 API\n:param token:\n:return:",
+        "operationId": "get_visitors_feed_profiles_visitors_get",
         "parameters": [
           {
-            "name": "user_id",
-            "in": "path",
+            "name": "token",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "User Id"
+              "title": "Token"
             }
           }
         ],
@@ -372,7 +372,7 @@
                   "items": {
                     "$ref": "#/components/schemas/VisitorProfileResp"
                   },
-                  "title": "Response Get Visitors Feed Profiles  User Id  Visitors Get"
+                  "title": "Response Get Visitors Feed Profiles Visitors Get"
                 }
               }
             }
@@ -672,6 +672,369 @@
             "schema": {
               "type": "integer",
               "title": "Post Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/place": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Get Place Apis",
+        "description": "place 관련 모든 api 리스팅\n:return:",
+        "operationId": "get_place_apis_place_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Get Place Apis Place Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "List Places",
+        "description": "조건에 맞는 장소 리스팅\n:param category: 리스팅할 장소의 카테고리\n:param location: 설정한 위치\n:param offset: 얼마나 떨어진 장소까지 리스팅 할지\n:return:",
+        "operationId": "list_places_places_get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Category"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Location"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResp"
+                  },
+                  "title": "Response List Places Places Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/{place_id}": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Get Place Info",
+        "description": "장소 상세 정보 반환\n:param place_id: 장소 id\n:return:",
+        "operationId": "get_place_info_places__place_id__get",
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Place Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaceInfoResp"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/recommendation": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "List Recommend Places",
+        "description": "조건에 맞는 추천 장소 리스팅\n:param category: 리스팅할 장소의 카테고리\n:param location: 설정한 위치\n:param offset: 얼마나 떨어진 장소까지 리스팅 할지\n:return:",
+        "operationId": "list_recommend_places_places_recommendation_get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Category"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Location"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResp"
+                  },
+                  "title": "Response List Recommend Places Places Recommendation Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/favorites": {
+      "post": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Add Favorite Place",
+        "description": "장소 즐겨찾기 추가\n:param place_id: 장소 id\n:param token: 인증용 토큰\n:return:",
+        "operationId": "add_favorite_place_places_favorites_post",
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Place Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "List Favorite Places",
+        "description": "즐겨찾기 장소 리스팅\n:param token:\n:return:",
+        "operationId": "list_favorite_places_places_favorites_get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResp"
+                  },
+                  "title": "Response List Favorite Places Places Favorites Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/favorites/{place_id}": {
+      "delete": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Delete Favorite Place",
+        "description": "장소 즐겨찾기 삭제\n:param place_id: 장소 id\n:param token: 인증용 토큰\n:return:",
+        "operationId": "delete_favorite_place_places_favorites__place_id__delete",
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Place Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
             }
           }
         ],
@@ -1090,6 +1453,343 @@
         ],
         "title": "VisitorProfileResp",
         "description": "방문자 프로필 리스폰스 모델"
+      },
+      "BusinessHours": {
+        "properties": {
+          "mon": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "18:00",
+                "is_open": true,
+                "open_time": "09:00"
+              }
+            ]
+          },
+          "tue": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "18:00",
+                "is_open": true,
+                "open_time": "09:00"
+              }
+            ]
+          },
+          "wed": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "18:00",
+                "is_open": true,
+                "open_time": "09:00"
+              }
+            ]
+          },
+          "thu": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "18:00",
+                "is_open": true,
+                "open_time": "09:00"
+              }
+            ]
+          },
+          "fri": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "18:00",
+                "is_open": true,
+                "open_time": "09:00"
+              }
+            ]
+          },
+          "sat": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "14:00",
+                "is_open": true,
+                "open_time": "09:00"
+              }
+            ]
+          },
+          "sun": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DailyOpeningHours"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              {
+                "close_time": "휴무",
+                "is_open": false,
+                "open_time": "휴무"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "BusinessHours",
+        "description": "일주일 영업 시간 모델"
+      },
+      "Contact": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "Phone",
+            "example": "010-1234-1234"
+          },
+          "site": {
+            "type": "string",
+            "maxLength": 2083,
+            "minLength": 1,
+            "format": "uri",
+            "title": "Site",
+            "example": "sk.co.kr"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "example": "example@example.com"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone",
+          "site",
+          "email"
+        ],
+        "title": "Contact",
+        "description": "연락처 정보"
+      },
+      "DailyOpeningHours": {
+        "properties": {
+          "open_time": {
+            "type": "string",
+            "title": "Open Time",
+            "example": "09:00"
+          },
+          "close_time": {
+            "type": "string",
+            "title": "Close Time",
+            "example": "18:00"
+          },
+          "is_open": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Open",
+            "example": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "open_time",
+          "close_time"
+        ],
+        "title": "DailyOpeningHours",
+        "description": "하루 영업 시간 모델"
+      },
+      "PlaceInfoResp": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "example": "123123"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "example": "강아지 병원"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address",
+            "example": "경기 성남시 분당구 대왕판교로 123"
+          },
+          "category": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Category",
+            "example": [
+              "병원",
+              "약국"
+            ]
+          },
+          "distance": {
+            "type": "integer",
+            "title": "Distance",
+            "example": 10
+          },
+          "images": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "maxLength": 2083,
+                  "minLength": 1,
+                  "format": "uri"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Images",
+            "example": [
+              "https://test.s3.amazonaws.com/test/test.jpg",
+              "https://test.s3.amazonaws.com/test/test2.jpg",
+              "https://test.s3.amazonaws.com/test/test3.jpg"
+            ]
+          },
+          "business_hours": {
+            "$ref": "#/components/schemas/BusinessHours"
+          },
+          "is_certified": {
+            "type": "boolean",
+            "title": "Is Certified",
+            "default": false,
+            "example": true
+          },
+          "contacts": {
+            "$ref": "#/components/schemas/Contact"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address",
+          "category",
+          "distance",
+          "business_hours",
+          "contacts"
+        ],
+        "title": "PlaceInfoResp",
+        "description": "장소 상세 리스폰스 모델"
+      },
+      "PlaceResp": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "example": "123123"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "example": "강아지 병원"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address",
+            "example": "경기 성남시 분당구 대왕판교로 123"
+          },
+          "category": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Category",
+            "example": [
+              "병원",
+              "약국"
+            ]
+          },
+          "distance": {
+            "type": "integer",
+            "title": "Distance",
+            "example": 10
+          },
+          "images": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "maxLength": 2083,
+                  "minLength": 1,
+                  "format": "uri"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Images",
+            "example": [
+              "https://test.s3.amazonaws.com/test/test.jpg",
+              "https://test.s3.amazonaws.com/test/test2.jpg",
+              "https://test.s3.amazonaws.com/test/test3.jpg"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address",
+          "category",
+          "distance"
+        ],
+        "title": "PlaceResp",
+        "description": "장소 리스폰스 모델"
       }
     }
   }
