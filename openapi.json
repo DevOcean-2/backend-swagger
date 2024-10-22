@@ -80,7 +80,7 @@
             "content": {
               "application/json": {
                 "schema": {
-
+                  "$ref": "#/components/schemas/PostResponse"
                 }
               }
             }
@@ -108,8 +108,19 @@
           "Feed"
         ],
         "summary": "Update Post",
-        "description": "본인 게시물 수정 API\n:param post:\n:param token:\n:return:",
+        "description": "본인 게시물 수정 API\n:param post_id:\n:param post:\n:param token:\n:param db:\n:return:",
         "operationId": "update_post_feed_posts__post_id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            },
+            "name": "post_id",
+            "in": "path"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -126,7 +137,7 @@
             "content": {
               "application/json": {
                 "schema": {
-
+                  "$ref": "#/components/schemas/PostResponse"
                 }
               }
             }
@@ -152,7 +163,7 @@
           "Feed"
         ],
         "summary": "Delete Post",
-        "description": "게시물 삭제 API\n:param post_id:\n:param token:\n:return:",
+        "description": "게시물 삭제 API\n:param post_id:\n:param token:\n:param db:\n:return:",
         "operationId": "delete_post_feed_posts__post_id__delete",
         "parameters": [
           {
@@ -199,7 +210,7 @@
           "Feed"
         ],
         "summary": "Like Post",
-        "description": "게시물 좋아요 API\n:param post_id:\n:param token:\n:return:",
+        "description": "게시물 좋아요 API\n:param post_id:\n:param like:\n:param token:\n:param db:\n:return:",
         "operationId": "like_post_feed_posts__post_id__likes_post",
         "parameters": [
           {
@@ -212,6 +223,16 @@
             "in": "path"
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Like"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -244,7 +265,7 @@
           "Feed"
         ],
         "summary": "Unlike Post",
-        "description": "게시물 좋아요 취소 API\n:param post_id:\n:param token:\n:return:",
+        "description": "게시물 좋아요 취소 API\n:param post_id:\n:param token:\n:param db:\n:return:",
         "operationId": "unlike_post_feed_posts__post_id__likes_delete",
         "parameters": [
           {
@@ -853,9 +874,9 @@
       },
       "NotiTypeFeed": {
         "properties": {
-          "feed_id": {
+          "post_id": {
             "type": "integer",
-            "title": "Feed Id"
+            "title": "Post Id"
           },
           "likes": {
             "items": {
@@ -867,7 +888,7 @@
         },
         "type": "object",
         "required": [
-          "feed_id"
+          "post_id"
         ],
         "title": "NotiTypeFeed",
         "description": "피드 알림 모델"
@@ -893,7 +914,7 @@
       },
       "PostCreate": {
         "properties": {
-          "image_url": {
+          "image_urls": {
             "items": {
               "type": "string",
               "maxLength": 2083,
@@ -901,7 +922,7 @@
               "format": "uri"
             },
             "type": "array",
-            "title": "Image Url"
+            "title": "Image Urls"
           },
           "content": {
             "type": "string",
@@ -910,7 +931,7 @@
         },
         "type": "object",
         "required": [
-          "image_url"
+          "image_urls"
         ],
         "title": "PostCreate",
         "description": "게시물 생성 모델"
